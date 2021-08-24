@@ -50,7 +50,8 @@ public class RtuMasterTest {
 
 
         //讀取通訊地址,bud rate
-        readHoldingRegisters(master, slaveId, 257, 2);
+        String hex = "0x0101";
+        readHoldingRegisters(master, slaveId, Integer.decode(hex), 2);
 
 
     }
