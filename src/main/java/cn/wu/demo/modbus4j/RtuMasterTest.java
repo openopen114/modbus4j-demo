@@ -42,7 +42,11 @@ public class RtuMasterTest {
         int slaveId = 1;
 
         //讀取溫度
-        ReadInputRegistersRequest(master, slaveId, 1, 2);
+        ReadInputRegistersResponse response = ReadInputRegistersRequest(master, slaveId, 1, 2);
+
+        System.out.println("===> 溫度:" + (double)response.getShortData()[0]/10 );
+        System.out.println("===> 濕度:" + (double)response.getShortData()[1]/10 );
+
 
 
         //讀取通訊地址,bud rate
@@ -91,7 +95,7 @@ public class RtuMasterTest {
      * 讀取保存寄存器 (功能碼 03)
      *
      * */
-    private static void readHoldingRegisters(ModbusMaster master, int slaveId, int start, int len) throws Exception {
+    private static ReadHoldingRegistersResponse readHoldingRegisters(ModbusMaster master, int slaveId, int start, int len) throws Exception {
         ReadHoldingRegistersRequest request = new ReadHoldingRegistersRequest(slaveId, start, len);
         ReadHoldingRegistersResponse response = (ReadHoldingRegistersResponse) master.send(request);
         if (response.isException()) {
@@ -99,6 +103,9 @@ public class RtuMasterTest {
         } else {
             System.out.println("===> readHoldingRegisters " + Arrays.toString(response.getShortData()));
         }
+
+
+        return response;
     }
 
 
@@ -107,14 +114,18 @@ public class RtuMasterTest {
      * 讀取輸入寄存器 (功能碼 04)
      *
      * */
-    private static void ReadInputRegistersRequest(ModbusMaster master, int slaveId, int start, int len) throws Exception {
+    private static ReadInputRegistersResponse ReadInputRegistersRequest(ModbusMaster master, int slaveId, int start, int len) throws Exception {
         ReadInputRegistersRequest request = new ReadInputRegistersRequest(slaveId, start, len);
         ReadInputRegistersResponse response = (ReadInputRegistersResponse) master.send(request);
         if (response.isException()) {
             System.out.println("===> ReadInputRegistersRequest ERROR " + response.getExceptionMessage());
         } else {
+
+
             System.out.println("===> ReadInputRegistersRequest " + Arrays.toString(response.getShortData()));
         }
+
+        return response;
     }
 
 
